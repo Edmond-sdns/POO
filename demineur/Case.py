@@ -14,7 +14,7 @@ class Case(object):
         if self.etat != 1:
             self.etat = 1
             partie.n_cases_non_decouvertes-=1
-            print(f'Nombres de cases non découvertes : {partie.n_cases_non_decouvertes}')
+            # print(f'Nombres de cases non découvertes : {partie.n_cases_non_decouvertes}')
 
 
 class Mine(Case):
