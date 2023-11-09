@@ -54,5 +54,5 @@ if __name__ == '__main__':
         app = QApplication(sys.argv)
     affichageGrille = AffichageGrille(grille,partie)
     affichageGrille.show()
-    clic = affichageGrille
+    # affichageInfos = AffichageInfos(partie)
     app.exec_()

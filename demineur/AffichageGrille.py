@@ -1,9 +1,9 @@
 
 
-from PyQt5.QtWidgets import (QWidget,QPushButton, QGridLayout)
+from PyQt5.QtWidgets import (QWidget,QPushButton, QGridLayout,QLabel)
 from Case import Mine,Indication,Vide
 from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QMouseEvent
+from PyQt5.QtGui import QMouseEvent,QIcon
 import numpy as np
  
 class AffichageGrille(QWidget):
@@ -48,7 +48,11 @@ class AffichageGrille(QWidget):
             
             
         grid.setSpacing(1)
-      
+        
+        self.n_mines = QLabel(f'Nombre de mines restantes: {partie.n_bombes}')
+        self.n_mines.setStyleSheet('font-size: 20px')
+        grid.addWidget(self.n_mines,self.n_lignes,0,1,9)
+        
         self.move(300, 150)
         self.setWindowTitle('Démineur')  
         self.show()
@@ -63,29 +67,45 @@ class AffichageGrille(QWidget):
         # sender_button = self.sender()
         ancienne_grilleNP = grilleLL2grilleNP(grille)
         case_action = grille.obtenirCase(coord[0],coord[1])
-        if case_action.etat == 0:
+        if (case_action.etat == 0 or case_action.etat == 2) and partie.etat == 1:
+            if case_action.etat == 2:
+                case_action.etat = 0
+                case = self.cases.get(coord)
+                case.setIcon(QIcon(''))
             if not isinstance(case_action,Vide):
                 case_action.decouvrir(partie)
+                if isinstance(case_action, Mine):
+                    case = self.cases.get(coord)
+                    case.setIcon(QIcon('img/bombe.png')) 
             else :
                 # print("case vide")
                 # tab_revel_np = grille.revelerCases(case_revelee)
                 grille.revelerCases(case_action,partie)
             nouvelle_grilleNP = grilleLL2grilleNP(grille)
-            self.miseAJourGrille(ancienne_grilleNP,nouvelle_grilleNP)
+            self.miseAJourGrille(ancienne_grilleNP,nouvelle_grilleNP,grille)
                 
-            print("Clic gauche à la coordonnée:", coord,case_action)
+            # print("Clic gauche à la coordonnée:", coord,case_action)
 
     def rightClickCase(self, coord,grille,partie):
         # sender_button = self.sender()
         case_action = grille.obtenirCase(coord[0],coord[1])
-        if case_action.etat == 0:
+        if case_action.etat == 0 and partie.etat == 1:
             case_action.marquerCase(partie)
-            print("Clic droit à la coordonnée:", coord,case_action)
+            case = self.cases.get(coord)
+            case.setIcon(QIcon('img/drapeau.png')) 
+            self.n_mines.setText(f'Nombre de mines restantes: {partie.n_bombes}')
+            # print("Clic droit à la coordonnée:", coord,case_action)
     
-    def miseAJourGrille(self,ancienne_grille,nouvelle_grille):
+    def miseAJourGrille(self,ancienne_grille,nouvelle_grille,grille):
         dif = np.where(nouvelle_grille!=ancienne_grille)
         for (i,j) in zip(dif[0],dif[1]):
-           self.updateCase((i,j),"font-size:30px;background-color:blue","n")
+            case_action = grille.obtenirCase(i,j)
+            # print("case action : ",case_action)
+            if isinstance(case_action,Indication):
+                txt = str(case_action.n_voisins)
+            else:
+                txt = ""
+            self.updateCase((i,j),"font-size:30px;background-color:blue",txt)
     
 
     
