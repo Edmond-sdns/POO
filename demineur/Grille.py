@@ -90,7 +90,8 @@ class Grille(object):
         c = case.c
         l_max = len(self.grille_ll)-1
         c_max = len(self.grille_ll[0])-1
-        l_coord_env = [(max(0,l-1),c),(l,max(0,c-1)),(min(l_max,l+1),c),(l,min(c_max,c+1))]
+        l_coord_env = [(max(0,l-1),c),(l,max(0,c-1)),(min(l_max,l+1),c),(l,min(c_max,c+1)),
+                       (max(0,l-1),max(0,c-1)),(min(l_max,l+1),max(0,c-1)),(min(l_max,l+1),min(c_max,c+1)),(max(0,l-1),min(c_max,c+1))]
         if self.grille_ll[l][c].etat != 1:
             case.decouvrir(partie)
             for coord in l_coord_env :
