@@ -7,9 +7,15 @@ from PyQt5.QtWidgets import QApplication
 import sys
 
 if __name__ == '__main__':
-    n_l = 9
-    n_c = 9
-    n_mines = 10
+    '''
+    Principale routine du programme qui appelle les classes et les méthodes pour le jeu.
+    Commenter et décommenter la partie du code voulue selon que l'on souhaite une partie en
+        mode console ou en mode graphique'
+    '''
+    dif = {1:(9,9,10),2:(16,16,40),3:(16,30,99)} #paraméètres des grilles en fonction du niveau de difficulté
+    difficulte = 1 #Niveau de difficulté par défaut
+    
+    n_l,n_c,n_mines = dif.get(difficulte)
     partie = Partie(n_l,n_c,n_mines)
     grille = partie.creer_grille()
     # grille_np = grille.initialiser_grille()

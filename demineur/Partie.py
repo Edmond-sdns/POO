@@ -3,7 +3,29 @@ from Case import Mine,Indication,Vide
 
 
 class Partie(object):
+    '''
+    Classe représentant une partie du jeu Démineur.
+
+    Attributs:
+        - n_lignes (int): Nombre de lignes de la grille.
+        - n_colonnes (int): Nombre de colonnes de la grille.
+        - n_bombes (int): Nombre de bombes non marquée sur la grille.
+        - etat (int): État de la partie (1 en cours, 0 terminée).
+        - n_cases_non_decouvertes (int): Nombre de cases non découvertes.
+
+    Méthodes:
+        - creer_grille(): Crée une nouvelle instance de la classe Grille.
+        - afficher(grille): Affiche l'état de la grille, utilisé pour la partie en mode console.
+    '''
     def __init__(self,n_lignes,n_colonnes,n_bombes):
+        '''
+        Initialise une nouvelle instance de la classe Partie.
+
+        Args:
+            n_lignes (int): Le nombre de lignes de la grille.
+            n_colonnes (int): Le nombre de colonnes de la grille.
+            n_bombes (int): Le nombre de bombes présentes sur la grille.
+        '''
         self.n_lignes = n_lignes
         self.n_colonnes = n_colonnes
         self.n_bombes = n_bombes
@@ -12,10 +34,25 @@ class Partie(object):
         
         
     def creer_grille(self):
+        '''
+        Crée une nouvelle instance de la classe Grille.
+
+        Returns:
+            Grille: Une nouvelle grille de jeu.
+        '''
         grille = Grille(self.n_lignes,self.n_colonnes,self.n_bombes)
         return grille
     
     def afficher(self,grille):
+        '''
+        Affiche l'état de la grille en console.
+
+        Args:
+            grille (Grille): L'instance de la grille à afficher.
+
+        Notes:
+            Utilisé principalement pour le débogage.
+        '''
         #test partie sans graphisme
         n_l = 0
         n_c = 0
